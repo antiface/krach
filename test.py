@@ -4,6 +4,6 @@ from krach.sink.alsa import AlsaSink
 from krach.sink.wav import WaveSink
 from krach.ext.plot import plot
 
-osc = oscillator.sine_vibrato(frequency.constant(220), 0.5, 10)
+osc = oscillator.square(frequency.constant(110))
 sink = AlsaSink()
 sink.sink([osc])
