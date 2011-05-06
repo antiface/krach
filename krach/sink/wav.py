@@ -8,7 +8,6 @@ class WaveSink(object):
         self.sample_width = sample_width
 
     def sink(self, oscillators):
-        print wave
         self.wav = wave.open(self.filename, 'w')
         self.wav.setnchannels(len(oscillators))
         self.wav.setframerate(self.sample_rate)

@@ -1,7 +1,7 @@
 from . import Controller
 from krach.musical.equal import get_frequency_from_name
 from krach.source import CycleEnded
-from krach.source.oscillator import sine, cut_after
+from krach.source.oscillator import sine, cut_after, combine_simple
 from krach.source.frequency import constant
 
 def parse_sheet(s):
@@ -56,11 +56,12 @@ class SheetController(Controller):
             oscillators = []
             if isinstance(elem, str):
                 # constant frequency, only one oscillator needed
-                oscillators.append(cut_after(self.oscillator(self.get_frequency(elem)), self.duration))
+                oscillators.append(self.oscillator(self.get_frequency(elem)), self.duration)
             elif isinstance(elem, (list, tuple)):
                 for name in elem:
-                    oscillators.append(cut_after(self.oscillator(self.get_frequency(name)), self.duration))
+                    oscillators.append(self.oscillator(self.get_frequency(name)))
             try:
-                self.sink.sink(oscillators)
+                osc = combine_simple([cut_after(o, self.duration) for o in oscillators])
+                self.sink.sink([osc])
             except CycleEnded:
                 pass
