@@ -15,7 +15,7 @@ class Note(object):
 
     @classmethod
     def quick(cls, name):
-        name_, octave = re.match(r'([a-zA-Zb#]+)([0-9]*)', name).groups()
+        name_, octave = re.match(r'([a-zA-Zb#]+)([0-9]+)', name).groups()
         return cls(name_, int(octave))
 
     def __repr__(self):

@@ -23,6 +23,28 @@ def square(freq):
         return 1 if simple_sine(t) > 0 else -1
     return f
 
+def silence(): # (i kill you)
+    def f(t):
+        return 0
+    return f
+
+def cut_after(osc, cut_delta):
+    class CutAfter(object):
+        def __init__(self, osc, cut_delta):
+            self.osc = osc
+            self.cut_delta = cut_delta
+            self.cut_t = None
+
+        def __call__(self, t):
+            if self.cut_t is None:
+                self.cut_t = t + self.cut_delta
+            if t >= self.cut_t:
+                raise CycleEnded()
+            else:
+                return self.osc(t)
+
+    return CutAfter(osc, cut_delta)
+        
 def combine_simple(osc):
     osc = osc[:]
     def f(t):
